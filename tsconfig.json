@@ -1,13 +1,14 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2019",
-    "sourceMap": true,
-    "outDir": "dist",
-    "baseUrl": "src",
-    "paths": {
-      "@routes": ["routes"]
-    }
-  },
-  "include": ["src/**/*"]
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2019",
+        "sourceMap": true,
+        "outDir": "dist",
+        "baseUrl": "./",
+        "paths": {
+            "@routes": ["src/routes"],
+            "@db/*": ["src/db/*"]
+        }
+    },
+    "include": ["src/**/*", "infra/**/*"]
 }

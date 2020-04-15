@@ -1,12 +1,15 @@
 import { ObjectSchema } from '@hapi/joi';
 
-export const validate = (schema: ObjectSchema, params) => {
+// TODO Move to a global error
+class SchemaVaildationError extends Error {}
+
+export const validate = <T>(schema: ObjectSchema<T>, params): T => {
     const { value, error } = schema.validate(params);
 
     if (error) {
-        throw new Error(
-            `Bad data, ${error.details.map(
-                (detail) => `${detail.path.join(',')}: ${detail.message}`
+        throw new SchemaVaildationError(
+            `Schema mismatch, ${error.details.map(
+                (detail) => `${detail.message}`
             )}`
         );
     }
