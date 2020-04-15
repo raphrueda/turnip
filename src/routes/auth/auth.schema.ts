@@ -1,7 +1,14 @@
 import * as Joi from '@hapi/joi';
 
-export const signupSchema = Joi.object({
-    email: Joi.string().email().required(),
+interface SignupSchema {
+    username: string;
+    email: string;
+    password: string;
+}
+
+export const signupSchema = Joi.object<SignupSchema>({
+    username: Joi.string().alphanum().max(40).required(),
+    email: Joi.string().email().max(40).required(),
     password: Joi.string()
         .min(8)
         /**
@@ -10,15 +17,20 @@ export const signupSchema = Joi.object({
          * - Contains at least one uppercase letter
          * - Contains at least one of the following: @#$%^&+=
          */
-
         .pattern(
             new RegExp(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/)
         )
         .required(),
-    // name: Joi.string().alphanum().min(1).max(30).required(),
 });
 
-export const loginSchema = Joi.object({
-    email: Joi.string().email().required(),
+interface LoginSchema {
+    username?: string;
+    email?: string;
+    password: string;
+}
+
+export const loginSchema = Joi.object<LoginSchema>({
+    username: Joi.string().alphanum().max(40),
+    email: Joi.string().email(),
     password: Joi.string().required(),
-});
+}).xor('username', 'email');

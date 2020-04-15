@@ -5,7 +5,7 @@ import { config } from 'dotenv';
 
 import { auth } from '@routes';
 
-// intialise dot env config
+// intialise and destructure dot env config
 config();
 const { APP_PORT } = process.env;
 
@@ -16,10 +16,9 @@ const app = express();
 app.use(bodyParser.json());
 
 // #region Route registration
-app.get('/', (req, res) => res.json({ result: 'beep' }));
 app.use('/auth', auth);
 // #endregion
 
 app.listen(APP_PORT, () => {
-  console.log(`server started on port ${APP_PORT}...`);
+    console.log(`server started on port ${APP_PORT}...`);
 });
