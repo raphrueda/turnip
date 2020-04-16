@@ -6,6 +6,7 @@
         "outDir": "dist",
         "baseUrl": "./",
         "paths": {
+            "@errors": ["src/errors"],
             "@routes": ["src/routes"],
             "@db/*": ["src/db/*"]
         }

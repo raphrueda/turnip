@@ -1,17 +1,15 @@
 import { compare, hash } from 'bcrypt';
 
+import {
+    EmailExistsError,
+    LoginFailedError,
+    UsernameExistsError,
+} from '@errors';
+
 import { dbService } from '../db-service';
 import { Tables } from '../tables';
 
 const saltRounds = 10;
-
-class UsernameExistsError extends Error {
-    message = 'A user with this username already exists.';
-}
-
-class EmailExistsError extends Error {
-    message = 'A user with this email already exists.';
-}
 
 export const createUser = async (
     username: string,
@@ -22,7 +20,6 @@ export const createUser = async (
         `SELECT id FROM ${Tables.Users} WHERE username=$1`,
         [username]
     );
-    console.log(usernameCheck);
     if (usernameCheck.rowCount !== 0) throw new UsernameExistsError();
 
     const emailCheck = await dbService.query(
@@ -37,11 +34,6 @@ export const createUser = async (
     const result = await dbService.query(query, values);
     return result.rows[0];
 };
-
-// TODO Move to a global error
-class LoginFailedError extends Error {
-    message = 'Username/Email and/or password are incorrect.';
-}
 
 export const login = async (
     username: string,
